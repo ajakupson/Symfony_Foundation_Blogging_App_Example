@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Symfony + Foundation Blogging App Demo</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+  </head>
+  <body>
+
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+          <h1>Symfony + Foundation Blogging App Demo</h1>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li><label for="email-login">Email :<label><input type="text" name="email-login" id="email-login"/></li>
+          <li><label for="pass-login">Password: <label><input type="text" name="pass-login" id="pass-login"></li>
+          <li><button class="button" id="log-in">Log In<button></li>
+          <li><a href="#">Forgot?</a></li>
+          <li><a href="#">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- End Top Bar -->
+
+    <div class="container">
+      {% block page_content %}
+      {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

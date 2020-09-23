@@ -1,0 +1,10 @@
+{% embed "layouts/main-layout.html.twig" %}
+  {% block page_content %}
+    <h2>Home</h2>
+    <ul>
+      {% for user in users %}
+          <li><a href="user/{{ user.id }}/blog">{{ user.firstName }} {{ user.lastName }}</li>
+      {% endfor %}
+    </ul>
+  {% endblock %}
+{% endembed %}
