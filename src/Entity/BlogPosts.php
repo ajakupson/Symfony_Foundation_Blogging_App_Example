@@ -154,4 +154,15 @@ class BlogPosts
     public function getUserId() {
       return $this->user->getId();
     }
+
+    public function getVisibleCommentsCount(): ?int {
+      $visibleCommentsCount = 0;
+      for($i = 0; $i < sizeof($this->postComments); $i++) {
+        if(!$this->postComments[$i]->getIsHidden()) {
+          $visibleCommentsCount++;
+        }
+      }
+
+      return $visibleCommentsCount;
+    }
 }

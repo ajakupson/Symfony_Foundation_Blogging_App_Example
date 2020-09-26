@@ -9,16 +9,28 @@ home:
     controller: App\Controller\User\HomePageController::homePage
 user_blog:
     path: /user/{userId}/blog
-    controller: App\Controller\User\UserBlogPageController::userBlogPage
+    controller: App\Controller\User\BlogPageController::userBlogPage
+user_blog_post_add_page:
+    path: /user/{userId}/blog/add-post
+    controller: App\Controller\User\BlogPageController::blogAddPostPage
+user_blog_post_add:
+    path: /api-post-add/{userId}
+    controller: App\Controller\User\BlogPageController::blogAddPost
 blog_post:
     path: /user/{userId}/blog/post/{postId}
     controller: App\Controller\User\BlogPostPageController::blogPostPage
 blog_post_update:
     path: /api-update-blog-post/{postId}
     controller: App\Controller\User\BlogPostPageController::updateBlogPost
-blog-post-add-comment:
+blog_post_add_comment_page:
     path: /api-blog-post/{postId}/add-comment
-    controller: App\Controller\User\BlogPostPageController::addComment    
+    controller: App\Controller\User\BlogPostPageController::addComment
+blog_post_hide_show_comment:
+    path: /api-blog-post/hide-show-comment/{commentId}
+    controller: App\Controller\User\BlogPostPageController::hideShowComment
+blog_post_delete_comment:
+    path: /api-blog-post/delete-comment/{commentId}
+    controller: App\Controller\User\BlogPostPageController::deleteComment
 admin:
     path: /admin
     controller: App\Controller\Admin\AdminHomePageController::adminHomePage

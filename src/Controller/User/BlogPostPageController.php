@@ -58,9 +58,11 @@ class BlogPostPageController extends AbstractController
         $blogPost = $blogPostsRepo->getPostById($postId);
         $comment->setPost($blogPost);
 
+        $userFullName = "Anonymous";
         if($parametersAsArray["userId"]) {
           $usersRepo = $this->getDoctrine()->getRepository(Users::class);
           $user = $usersRepo->findOneById($parametersAsArray["userId"]);
+          $userFullName = $user->getFirstName()." ".$user->GetLastName();
           $comment->setUser($user);
         }
         $comment->setComment($parametersAsArray["commentTxt"]);
@@ -70,7 +72,47 @@ class BlogPostPageController extends AbstractController
         $entityManager->persist($comment);
         $entityManager->flush();
 
-        $response = new Response(json_encode("{}"));
+        $commentDateTimeStr = $comment->getDateTime()->format("Y/m/d h:i:s a");
+        $commentTxt = $comment->getComment();
+
+        $jsonResponse = "{ \"fullName\": \"".$userFullName."\", \"commentDateTime\": \"".$commentDateTimeStr.
+                        "\", \"commentTxt\":\"".$commentTxt."\", \"commentId\": \"".$comment->getId()."\"}";
+        $response = new Response($jsonResponse);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function hideShowComment($commentId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $postCommentsRepo = $this->getDoctrine()->getRepository(PostComments::class);
+        $comment = $postCommentsRepo->getCommentById($commentId);
+        $comment->setIsHidden(!$comment->getIsHidden());
+
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        $jsonResponse = "{}";
+        $response = new Response($jsonResponse);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function deleteComment($commentId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $postCommentsRepo = $this->getDoctrine()->getRepository(PostComments::class);
+        $comment = $postCommentsRepo->getCommentById($commentId);
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $jsonResponse = "{}";
+        $response = new Response($jsonResponse);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

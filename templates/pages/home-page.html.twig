@@ -9,10 +9,13 @@
                 <p><b>{{ blogPost.title }}</b><p><p class="lightgray">{{ blogPost.dateTime|date('Y-m-d') }}</p>
                 <img clss="thumbnail" src="{{ asset('assets/img/default.jpg') }}"/>
                 <p class="blog-short-content">{{ blogPost.content }}</p> ...
-                <p class="row">
-                  <span>Comments: {{ blogPost.getPostComments()|length }}</span>
-                  <a href="user/{{ blogPost.getUserId() }}/blog/post/{{ blogPost.id }}">READ</a>
-                </p>
+                <div class="callout">
+                  <ul class="menu simple">
+                    <li>Author: {{ blogPost.getUser.getFirstName }} {{ blogPost.getUser.getLastName }}</li>
+                    <li>Comments: {{ blogPost.getVisibleCommentsCount }}</li>
+                  </ul>
+                </div>
+                <p><a href="user/{{ blogPost.getUserId() }}/blog/post/{{ blogPost.id }}" class="button" style="float: right;">READ</a></p>
               </div>
           {% endfor %}
         </div>

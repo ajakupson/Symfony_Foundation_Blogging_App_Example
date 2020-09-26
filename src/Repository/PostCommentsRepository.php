@@ -19,32 +19,12 @@ class PostCommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, PostComments::class);
     }
 
-    // /**
-    //  * @return PostComments[] Returns an array of PostComments objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getCommentById($commentId): ?PostComments
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('pc')
+        ->andWhere('pc.id = :val')
+        ->setParameter('val', $commentId)
+        ->getQuery()
+        ->getOneOrNullResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?PostComments
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

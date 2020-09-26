@@ -3,6 +3,7 @@
     <div class="callout large primary">
       <div class="text-center">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+        {% if app.user and app.user.id == user.id %}<a href="/user/{{ app.user.id }}/blog/add-post">ADD NEW POST...</a>{% endif %}
       </div>
     </div>
     <section class="grid-container">
@@ -13,8 +14,8 @@
               <img clss="thumbnail" src="{{ asset('assets/img/default.jpg') }}"/>
               <p class="blog-short-content">{{ blogPost.content }}</p> ...
               <p class="row">
-                <span>Comments: {{ blogPost.getPostComments()|length }}</span>
-                <a href="blog/post/{{ blogPost.id }}">READ</a>
+                <span>Comments: {{ blogPost.getVisibleCommentsCount() }}</span>
+                <a href="blog/post/{{ blogPost.id }}" class="button">READ</a>
               </p>
             </div>
         {% endfor %}

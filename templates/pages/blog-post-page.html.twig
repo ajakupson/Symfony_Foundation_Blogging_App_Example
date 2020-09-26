@@ -3,6 +3,7 @@
     <div class="callout large primary">
       <div class="text-center">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+        <a href="/user/{{ user.id }}/blog/">BACK</a>
       </div>
     </div>
     <section class="grid-container">
@@ -18,7 +19,7 @@
             <p {% if is_granted('ROLE_ADMIN') %} contenteditable="true" class="editable" {% endif %} id="blog-post-content">
               {{ blogPost.content }}
             </p>
-            {% if is_granted('ROLE_ADMIN') %} <button id="save-blog-post-changes-btn" class="button">SAVE CHANGES</button> {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}<hr><button id="save-blog-post-changes-btn" class="button">SAVE CHANGES</button> {% endif %}
           </div>
           <hr>
           <div class="add-post-comment">
@@ -26,18 +27,40 @@
             <button class="button" id="add-comment-btn">ADD COMMENT</button>
           </div>
           <hr>
-          <div class="blog-post-comments">
+          <div class="blog-post-comments" id="blog-post-comments">
             <h4>Comments:</h4>
             {% for comment in comments %}
-            <div class="row">
-              <div class="column">
-                <img src="#">
-              </div>
-              <div class="column">
-                <div class="row"><h5><small>{{ comment.dateTime|date("Y/m/d h:i:s a") }}</small></h5></div>
-                <div class="row">{{ comment.comment }}</div>
-              </div>
-            </div>
+              {% if comment.isHidden == false or is_granted('ROLE_ADMIN')%}
+                <div class="comment-container">
+                  <input type="hidden" value="{{ comment.id }}">
+                  <div class="comment-column avatar">
+                    <img src="{{ asset ('assets/img/no-avatar.png') }}">
+                  </div>
+                  <div class="comment-column">
+                    <div class="comment-row">
+                      <h5>
+                        {{ comment.getUser ? comment.getUser.getFirstName() ~ ' ' ~ comment.getUser.getLastName() : "Anonymous" }}
+                        <small>{{ comment.dateTime|date("Y/m/d h:i:s a") }}
+                          {% if is_granted('ROLE_ADMIN')%}
+                            <span class="comment-hidden">{% if comment.isHidden %}(hidden){% endif %}</span>
+                          {% endif %}
+                        </small>
+                        {% if is_granted('ROLE_ADMIN') or (app.user and app.user.id == user.id) %}
+                          <div class="comment-menu">
+                            {% if is_granted('ROLE_ADMIN') %}
+                              <button class="comment-hide-btn" data-comment-id="{{ comment.id }}"></button>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') or app.user.id == user.id %}
+                              <button class="comment-delete-btn" data-comment-id="{{ comment.id }}"></button>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+                      </h5>
+                    </div>
+                    <div class="comment-row">{{ comment.comment }}</div>
+                  </div>
+                </div>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -60,7 +83,35 @@
       addCommentBtn.onclick = function() {
         var blogPostId = document.getElementById("blog-post-id").value;
         var commentTxt = document.getElementById("comment-txt").value;
-        app.addComment({% if app.user %} {{ app.user.id }} {% else %} null {% endif %}, blogPostId, commentTxt);
+
+        var userId = null;
+        {% if app.user %} userId = {{ app.user.id }}; {% endif %}
+
+        var hasRoleAdmin = false;
+        {% if is_granted('ROLE_ADMIN') %} hasRoleAdmin = true; {% endif %}
+
+        var isOwner = false;
+        {% if app.user and app.user.id == user.id %} isOwner = true; {% endif %}
+
+        app.addComment(userId, blogPostId, commentTxt, hasRoleAdmin, isOwner);
+      }
+
+      var btnList = document.getElementsByClassName('comment-hide-btn');
+      var listLength = btnList.length;
+      for(var i = 0; i < listLength; i++) {
+        btnList[i].onclick = function() {
+          var commentId = this.getAttribute('data-comment-id');
+          app.hideShowComment(this, commentId);
+        }
+      }
+
+      btnList = document.getElementsByClassName('comment-delete-btn');
+      listLength = btnList.length;
+      for(var i = 0; i < listLength; i++) {
+        btnList[i].onclick = function() {
+          var commentId = this.getAttribute('data-comment-id');
+          app.deleteComment(this, commentId);
+        }
       }
 
     </script>

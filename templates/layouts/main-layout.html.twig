@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Symfony + Foundation Blogging App Demo</title>
+    <title>Symfony + Foundation, Blogging App Demo</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css">
@@ -14,16 +14,16 @@
     <!-- Start Top Bar -->
     <div class="top-bar">
       <div class="top-bar-left">
-          <h1>Symfony + Foundation Blogging App Demo</h1>
+          <h1><a href="/" class="logo-link">Symfony + Foundation, Blogging App Demo</a></h1>
       </div>
       <div class="top-bar-right">
         <ul class="menu">
           {% if not app.user %}
             <li>
-              <label for="email-login">Email :<label><input type="text" name="email-login" id="email-login"/>
+              <label for="email-login">Email :<label><input type="email" name="email-login" id="email-login" autocomplete="on"/>
               <p class="hidden red" id="user-not-found">User could not be found!<p>
             </li>
-            <li><label for="pass-login">Password: <label><input type="text" name="pass-login" id="pass-login"></li>
+            <li><label for="pass-login">Password: <label><input type="password" name="pass-login" id="pass-login"></li>
             <li><button class="button" id="log-in-btn">Log In<button></li>
             <li><a href="#">Forgot?</a></li>
             <li><a href="#">Sign Up</a></li>
@@ -39,6 +39,11 @@
     <div class="container" id="container">
       {% block page_content %}
       {% endblock %}
+    </div>
+
+    <div class="notification is-hidden" id="notification">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </div>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>

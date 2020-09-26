@@ -1,0 +1,54 @@
+{% embed "layouts/main-layout.html.twig" %}
+  {% block page_content %}
+    <div class="callout large primary">
+      <div class="text-center">
+        <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+        {% if app.user and app.user.id == user.id %}<a href="/user/{{ app.user.id }}/blog/">BACK</a>{% endif %}
+      </div>
+    </div>
+    <section>
+      <div class="columns contact-us-section-right">
+        <h1>New Post</h1>
+        <form method="post" id="post-from">
+          <input type="text" name="post-title"id="post-title" placeholder="Title">
+          <textarea name="post-content" id="post-content" rows="12" placeholder="Content"></textarea>
+          <div>
+            <div>
+              <label for="file-upload" class="button">Attach Image</label>
+              <input type="file" id="file-upload" class="show-for-sr" multiple="false" accept=".png, .jpg, .jpeg" onchange="handleFiles(this.files)">
+              <span id="selected-file-name"></span>
+            </div>
+            <input class="button" value="ADD" id="add-post-btn">
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <script>
+
+      function handleFiles(files) {
+        document.getElementById("selected-file-name").innerHTML = files[0].name;
+      }
+
+      function isEmptyStr(str) {
+          return (!str || str.length === 0 || !str.trim());
+      }
+
+      document.getElementById("add-post-btn").onclick = function() {
+        var title = document.getElementById("post-title").value;
+        var content = document.getElementById("post-content").value;
+
+        if(!isEmptyStr(title) && !isEmptyStr(content)) {
+          var form = document.getElementById("post-from");
+          var formData = new FormData(form);
+          var file = document.getElementById("file-upload").files[0];
+          formData.append("post-img", file, file.name);
+
+          app.addPost({{ app.user.id }}, formData);
+        }
+
+      }
+
+    </script>
+  {% endblock %}
+{% endembed %}

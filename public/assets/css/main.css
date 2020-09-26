@@ -25,7 +25,7 @@
 #container .cell p.row {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 #container .cell p span {
   display: inline-block;
@@ -62,7 +62,7 @@ aside.authors {
 aside.authors ul {
   list-style: none;
 }
-#post-txt {
+#comment-txt {
   resize: vertical;
   max-height: 300px;
 }
@@ -83,4 +83,78 @@ aside.authors ul {
   margin: 15px;
   margin-left: calc(100% - 160px);
   width: 150px;
+}
+.comment-container {
+  width: 100%;
+  position: relative;
+}
+.comment-column {
+  width: auto;
+  display: inline-block;
+}
+.comment-column.avatar {
+  width: 120px;
+  padding: 15px;
+}
+.comment-column.avatar img {
+  width: 80px;
+  height: 80px;
+}
+.comment-row {
+  width: 100%;
+  position: relative;
+}
+.comment-menu {
+  margin: 0 15px 0 15px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: bottom;
+}
+.comment-hide-btn {
+  background: url('/assets/img/hide-icon.png');
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.comment-delete-btn {
+  background: url('/assets/img/delete-icon.png');
+  background-size: contain;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+.blog-post-comments h4 {
+  margin-left: 20px;
+}
+.notification {
+  width: 500px;
+  height: auto;
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3adb76;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 20px;
+  color: black;
+  text-shadow: 1px 1px #FFFFFF;
+}
+#post-content {
+  resize: vertical;
+  max-height: 400px;
+}
+.button {
+  min-width: 100px;
+  border-radius: 20px;
+  padding-top: 12px;
+}
+.home-page-content-wrapper .callout * {
+  font-size: 16px;
+}
+.logo-link:hover {
+  color: #1779ba;
 }

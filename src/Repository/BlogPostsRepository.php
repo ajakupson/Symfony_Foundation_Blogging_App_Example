@@ -31,8 +31,9 @@ class BlogPostsRepository extends ServiceEntityRepository
       public function getPostsByUserId($userId): ?Array
       {
         return $this->createQueryBuilder('bp')
-          ->andWhere('bp.userId = :val')
+          ->andWhere('bp.user = :val')
           ->setParameter('val', $userId)
+          ->orderBy('bp.dateTime', 'DESC')
           ->getQuery()
           ->getResult();
       }
