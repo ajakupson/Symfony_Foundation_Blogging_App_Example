@@ -1,9 +1,24 @@
+app_login:
+  path: /login
+  controller: App\Controller\LoginController::loginCheck
+logout:
+  path: /logout
+  controller: App\Controller\LogoutController::logout
 home:
     path: /
     controller: App\Controller\User\HomePageController::homePage
 user_blog:
-    path: /user/{id}/blog
+    path: /user/{userId}/blog
     controller: App\Controller\User\UserBlogPageController::userBlogPage
+blog_post:
+    path: /user/{userId}/blog/post/{postId}
+    controller: App\Controller\User\BlogPostPageController::blogPostPage
+blog_post_update:
+    path: /api-update-blog-post/{postId}
+    controller: App\Controller\User\BlogPostPageController::updateBlogPost
+blog-post-add-comment:
+    path: /api-blog-post/{postId}/add-comment
+    controller: App\Controller\User\BlogPostPageController::addComment    
 admin:
     path: /admin
     controller: App\Controller\Admin\AdminHomePageController::adminHomePage

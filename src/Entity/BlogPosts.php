@@ -20,17 +20,23 @@ class BlogPosts
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="blogPosts")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $userId;
+    private $user;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=150)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="datetime")
+     */
+    private $dateTime;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $postImg;
 
@@ -40,7 +46,7 @@ class BlogPosts
     private $content;
 
     /**
-     * @ORM\OneToMany(targetEntity=PostComments::class, mappedBy="postId")
+     * @ORM\OneToMany(targetEntity=PostComments::class, mappedBy="post")
      */
     private $postComments;
 
@@ -54,14 +60,14 @@ class BlogPosts
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?Users
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(int $userId): self
+    public function setUser(?Users $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
@@ -74,6 +80,18 @@ class BlogPosts
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getDateTime(): ?\DateTimeInterface
+    {
+        return $this->dateTime;
+    }
+
+    public function setDateTime(\DateTimeInterface $dateTime): self
+    {
+        $this->dateTime = $dateTime;
 
         return $this;
     }
@@ -114,7 +132,7 @@ class BlogPosts
     {
         if (!$this->postComments->contains($postComment)) {
             $this->postComments[] = $postComment;
-            $postComment->setPostId($this);
+            $postComment->setPost($this);
         }
 
         return $this;
@@ -125,11 +143,15 @@ class BlogPosts
         if ($this->postComments->contains($postComment)) {
             $this->postComments->removeElement($postComment);
             // set the owning side to null (unless already changed)
-            if ($postComment->getPostId() === $this) {
-                $postComment->setPostId(null);
+            if ($postComment->getPost() === $this) {
+                $postComment->setPost(null);
             }
         }
 
         return $this;
+    }
+
+    public function getUserId() {
+      return $this->user->getId();
     }
 }

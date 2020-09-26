@@ -19,32 +19,30 @@ class BlogPostsRepository extends ServiceEntityRepository
         parent::__construct($registry, BlogPosts::class);
     }
 
-    // /**
-    //  * @return BlogPosts[] Returns an array of BlogPosts objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getLatestPosts($maxResult = 10): ?Array
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+      return $this->createQueryBuilder('bp')
+        ->orderBy('bp.dateTime', 'DESC')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+      }
 
-    /*
-    public function findOneBySomeField($value): ?BlogPosts
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+      public function getPostsByUserId($userId): ?Array
+      {
+        return $this->createQueryBuilder('bp')
+          ->andWhere('bp.userId = :val')
+          ->setParameter('val', $userId)
+          ->getQuery()
+          ->getResult();
+      }
+
+      public function getPostById($postId): ?BlogPosts
+      {
+        return $this->createQueryBuilder('bp')
+          ->andWhere('bp.id = :val')
+          ->setParameter('val', $postId)
+          ->getQuery()
+          ->getOneOrNullResult();
+      }
 }

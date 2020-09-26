@@ -1,10 +1,32 @@
 {% embed "layouts/main-layout.html.twig" %}
   {% block page_content %}
-    <h2>Home</h2>
-    <ul>
-      {% for user in users %}
-          <li><a href="user/{{ user.id }}/blog">{{ user.firstName }} {{ user.lastName }}</li>
-      {% endfor %}
-    </ul>
+    <h3>Latest posts</h3>
+    <div class="home-page-content-wrapper">
+      <section class="grid-container">
+        <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-4">
+          {% for blogPost in blogPosts %}
+              <div class="cell">
+                <p><b>{{ blogPost.title }}</b><p><p class="lightgray">{{ blogPost.dateTime|date('Y-m-d') }}</p>
+                <img clss="thumbnail" src="{{ asset('assets/img/default.jpg') }}"/>
+                <p class="blog-short-content">{{ blogPost.content }}</p> ...
+                <p class="row">
+                  <span>Comments: {{ blogPost.getPostComments()|length }}</span>
+                  <a href="user/{{ blogPost.getUserId() }}/blog/post/{{ blogPost.id }}">READ</a>
+                </p>
+              </div>
+          {% endfor %}
+        </div>
+      </section>
+      <aside class="authors">
+        <div class="">
+          <h4>Authors</h4>
+          <ul>
+            {% for user in users %}
+              <li><a href="user/{{ user.id }}/blog">{{ user.firstName }} {{ user.lastName }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </aside>
+    </div>
   {% endblock %}
 {% endembed %}

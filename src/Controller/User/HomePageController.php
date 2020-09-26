@@ -3,20 +3,28 @@
 namespace App\Controller\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Users;
+use App\Entity\BlogPosts;
+//use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class HomePageController extends AbstractController
 {
-    public function homePage()
+    public function homePage(/*UserPasswordEncoderInterface $encoder*/)
     {
         // Create admin user programmatically
         /*
         $entityManager = $this->getDoctrine()->getManager();
+
         $user = new Users();
-        $user->setEmail("ajakupson.job@gmail.com");
+        $user->setEmail("ajakupson@gmail.com");
         $user->setRoles(["ROLE_ADMIN"]);
-        $user->setPassword('qwerty500');
+
+        $plainPassword = 'qwerty500';
+        $encoded = $encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+
         $user->setFirstName("Andrei");
         $user->setLastName("Jakupson");
+
         $entityManager->persist($user);
         $entityManager->flush();
         */
@@ -24,7 +32,10 @@ class HomePageController extends AbstractController
         $usersRepo = $this->getDoctrine()->getRepository(Users::class);
         $users = $usersRepo->findAll();
 
-        return $this->render('pages/home-page.html.twig', ['users' => $users]);
+        $blogPostsRepo = $this->getDoctrine()->getRepository(BlogPosts::class);
+        $blogPosts = $blogPostsRepo->getLatestPosts();
+
+        return $this->render('pages/home-page.html.twig', ['users' => $users, 'blogPosts' => $blogPosts]);
     }
 }
 

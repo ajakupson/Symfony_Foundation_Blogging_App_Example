@@ -1,5 +1,24 @@
 {% embed "layouts/main-layout.html.twig" %}
   {% block page_content %}
-    <h2>User blog</h2>
+    <div class="callout large primary">
+      <div class="text-center">
+        <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+      </div>
+    </div>
+    <section class="grid-container">
+      <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-4">
+        {% for blogPost in blogPosts %}
+            <div class="cell">
+              <p><b>{{ blogPost.title }}</b><p><p class="lightgray">{{ blogPost.dateTime|date('Y-m-d') }}</p>
+              <img clss="thumbnail" src="{{ asset('assets/img/default.jpg') }}"/>
+              <p class="blog-short-content">{{ blogPost.content }}</p> ...
+              <p class="row">
+                <span>Comments: {{ blogPost.getPostComments()|length }}</span>
+                <a href="blog/post/{{ blogPost.id }}">READ</a>
+              </p>
+            </div>
+        {% endfor %}
+      </div>
+    </section>
   {% endblock %}
 {% endembed %}

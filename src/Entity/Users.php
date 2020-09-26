@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -43,6 +45,22 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=50)
      */
     private $lastName;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BlogPosts::class, mappedBy="user")
+     */
+    private $blogPosts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostComments::class, mappedBy="user")
+     */
+    private $postComments;
+
+    public function __construct()
+    {
+        $this->blogPosts = new ArrayCollection();
+        $this->postComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -142,6 +160,68 @@ class Users implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BlogPosts[]
+     */
+    public function getBlogPosts(): Collection
+    {
+        return $this->blogPosts;
+    }
+
+    public function addBlogPost(BlogPosts $blogPost): self
+    {
+        if (!$this->blogPosts->contains($blogPost)) {
+            $this->blogPosts[] = $blogPost;
+            $blogPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlogPost(BlogPosts $blogPost): self
+    {
+        if ($this->blogPosts->contains($blogPost)) {
+            $this->blogPosts->removeElement($blogPost);
+            // set the owning side to null (unless already changed)
+            if ($blogPost->getUser() === $this) {
+                $blogPost->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostComments[]
+     */
+    public function getPostComments(): Collection
+    {
+        return $this->postComments;
+    }
+
+    public function addPostComment(PostComments $postComment): self
+    {
+        if (!$this->postComments->contains($postComment)) {
+            $this->postComments[] = $postComment;
+            $postComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostComment(PostComments $postComment): self
+    {
+        if ($this->postComments->contains($postComment)) {
+            $this->postComments->removeElement($postComment);
+            // set the owning side to null (unless already changed)
+            if ($postComment->getUser() === $this) {
+                $postComment->setUser(null);
+            }
+        }
 
         return $this;
     }

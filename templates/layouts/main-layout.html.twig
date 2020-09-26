@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Symfony + Foundation Blogging App Demo</title>
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
   </head>
   <body>
@@ -16,25 +18,44 @@
       </div>
       <div class="top-bar-right">
         <ul class="menu">
-          <li><label for="email-login">Email :<label><input type="text" name="email-login" id="email-login"/></li>
-          <li><label for="pass-login">Password: <label><input type="text" name="pass-login" id="pass-login"></li>
-          <li><button class="button" id="log-in">Log In<button></li>
-          <li><a href="#">Forgot?</a></li>
-          <li><a href="#">Sign Up</a></li>
+          {% if not app.user %}
+            <li>
+              <label for="email-login">Email :<label><input type="text" name="email-login" id="email-login"/>
+              <p class="hidden red" id="user-not-found">User could not be found!<p>
+            </li>
+            <li><label for="pass-login">Password: <label><input type="text" name="pass-login" id="pass-login"></li>
+            <li><button class="button" id="log-in-btn">Log In<button></li>
+            <li><a href="#">Forgot?</a></li>
+            <li><a href="#">Sign Up</a></li>
+          {% elseif app.user %}
+              <li><p class="logged-in-name">{{ app.user.firstName }} {{ app.user.lastName }}</p><li>
+              <li><button class="button" id="log-out-btn">Log Out<button></li>
+          {% endif %}
         </ul>
       </div>
     </div>
     <!-- End Top Bar -->
 
-    <div class="container">
+    <div class="container" id="container">
       {% block page_content %}
       {% endblock %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
     <script>
-      $(document).foundation();
+      var app = new App();
+      var logInBtn = document.getElementById("log-in-btn");
+      if(logInBtn) {
+        logInBtn.onclick = function() {
+          app.logIn();
+        }
+      }
+      var logOutBtn = document.getElementById("log-out-btn");
+      if(logOutBtn) {
+        logOutBtn.onclick = function() {
+          app.logOut();
+        }
+      }
     </script>
   </body>
 </html>

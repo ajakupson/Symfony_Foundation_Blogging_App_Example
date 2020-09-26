@@ -4,6 +4,7 @@ security:
             algorithm: auto
 
 
+
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -14,21 +15,28 @@ security:
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
         # used to reload user from session & other features (e.g. switch_user)
-        # used to reload user from session & other features (e.g. switch_user)
-        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            form_login:
-              login_path: /
-              check_path: login_check
-              default_target_path: /
-              failure_path: /
-            logout:
-              path:   /logout
-              target: /
+          lazy: true
+
+          remember_me:
+              secret: '%kernel.secret%'
+              lifetime: 604800 # in seconds
+              path: /
+              always_remember_me: false
+
+          json_login:
+              remember_me: false
+              check_path: app_login
+              username_path: email
+              password_path: password
+
+          logout:
+            path:   /logout
+            target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

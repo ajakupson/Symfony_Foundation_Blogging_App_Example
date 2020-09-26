@@ -21,12 +21,12 @@ class PostComments
      * @ORM\ManyToOne(targetEntity=BlogPosts::class, inversedBy="postComments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $postId;
+    private $post;
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="postComments")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=2000)
@@ -38,31 +38,36 @@ class PostComments
      */
     private $isHidden;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateTime;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPostId(): ?BlogPosts
+    public function getPost(): ?BlogPosts
     {
-        return $this->postId;
+        return $this->post;
     }
 
-    public function setPostId(?BlogPosts $postId): self
+    public function setPost(?BlogPosts $post): self
     {
-        $this->postId = $postId;
+        $this->post = $post;
 
         return $this;
     }
 
-    public function getUserId(): ?Users
+    public function getUser(): ?Users
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?Users $userId): self
+    public function setUser(?Users $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
@@ -87,6 +92,18 @@ class PostComments
     public function setIsHidden(bool $isHidden): self
     {
         $this->isHidden = $isHidden;
+
+        return $this;
+    }
+
+    public function getDateTime(): ?\DateTimeInterface
+    {
+        return $this->dateTime;
+    }
+
+    public function setDateTime(\DateTimeInterface $dateTime): self
+    {
+        $this->dateTime = $dateTime;
 
         return $this;
     }

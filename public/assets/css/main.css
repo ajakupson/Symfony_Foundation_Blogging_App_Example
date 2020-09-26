@@ -1,6 +1,86 @@
-#log-in {
+#log-in-btn {
   margin-top: 25px;
 }
 .top-bar-right a {
   margin-top: 20px;
+}
+#container h3 {
+  margin: 20px;
+}
+#container .cell {
+  margin: 20px;
+  border: 1px solid lightgray;
+  padding: 10px;
+}
+#container .cell a {
+  color: white;
+  padding: 10px;
+  margin: 5px;
+  background-color: #1779ba;
+  display: inline-block;
+}
+#container .cell p {
+  margin-bottom: 5px;
+}
+#container .cell p.row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+#container .cell p span {
+  display: inline-block;
+  transform: translateY(25%);
+}
+#container .grid-container {
+  width: auto;
+  max-width: 100%;
+  justify-content: space-between;
+}
+#container .grid-x {
+  justify-content:center;
+}
+.home-page-content-wrapper {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+}
+#container .grid-container {
+  margin: 10px;
+}
+.lightgray {
+  color: lightgray;
+}
+.blog-short-content {
+  height: 100px;
+  overflow: hidden;
+}
+aside.authors {
+  width: auto;
+  min-width: 200px;
+  margin-right: 100px;
+}
+aside.authors ul {
+  list-style: none;
+}
+#post-txt {
+  resize: vertical;
+  max-height: 300px;
+}
+.hidden {
+  visibility: hidden;
+  padding: 5px;
+}
+.red {
+  color: red;
+}
+.logged-in-name {
+  margin: 30px;
+}
+#log-out-btn {
+  margin-top: 25px;
+}
+#save-blog-post-changes-btn {
+  margin: 15px;
+  margin-left: calc(100% - 160px);
+  width: 150px;
 }

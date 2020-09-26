@@ -1,0 +1,68 @@
+{% embed "layouts/main-layout.html.twig" %}
+  {% block page_content %}
+    <div class="callout large primary">
+      <div class="text-center">
+        <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+      </div>
+    </div>
+    <section class="grid-container">
+      <div class="grid-x align-center">
+        <div class="cell medium-8">
+          <div class="blog-post">
+            <input type="hidden" value="{{ blogPost.id }}" id="blog-post-id"/>
+            <h3>
+              <span id="blog-post-title" {% if is_granted('ROLE_ADMIN') %} contenteditable="true" {% endif %}>{{ blogPost.title }}</span>
+              <small>{{ blogPost.dateTime|date("Y/m/d H:m:s") }}</small>
+            </h3>
+            <img class="thumbnail" src="{{ asset('assets/img/default.jpg') }}">
+            <p {% if is_granted('ROLE_ADMIN') %} contenteditable="true" class="editable" {% endif %} id="blog-post-content">
+              {{ blogPost.content }}
+            </p>
+            {% if is_granted('ROLE_ADMIN') %} <button id="save-blog-post-changes-btn" class="button">SAVE CHANGES</button> {% endif %}
+          </div>
+          <hr>
+          <div class="add-post-comment">
+            <textarea id="comment-txt"></textarea>
+            <button class="button" id="add-comment-btn">ADD COMMENT</button>
+          </div>
+          <hr>
+          <div class="blog-post-comments">
+            <h4>Comments:</h4>
+            {% for comment in comments %}
+            <div class="row">
+              <div class="column">
+                <img src="#">
+              </div>
+              <div class="column">
+                <div class="row"><h5><small>{{ comment.dateTime|date("Y/m/d h:i:s a") }}</small></h5></div>
+                <div class="row">{{ comment.comment }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+
+      var saveBlogPostChanges = document.getElementById("save-blog-post-changes-btn");
+      if(saveBlogPostChanges) {
+        saveBlogPostChanges.onclick = function() {
+          var blogPostId = document.getElementById("blog-post-id").value;
+          var blogPostTitle = document.getElementById("blog-post-title").innerText;
+          var blogPostContent = document.getElementById("blog-post-content").innerText;
+          app.updateBlogPost(blogPostId, blogPostTitle, blogPostContent);
+        }
+      }
+
+      var addCommentBtn = document.getElementById("add-comment-btn");
+      addCommentBtn.onclick = function() {
+        var blogPostId = document.getElementById("blog-post-id").value;
+        var commentTxt = document.getElementById("comment-txt").value;
+        app.addComment({% if app.user %} {{ app.user.id }} {% else %} null {% endif %}, blogPostId, commentTxt);
+      }
+
+    </script>
+  {% endblock %}
+{% endembed %}
