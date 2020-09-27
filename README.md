@@ -10,9 +10,9 @@ project_root/
 │   │   ├── Admin/
 |   |   |   └── AdminHomePageController.php
 │   │   ├── User/
-│   │   |    ├── HomePageController.php
-│   │   |    ├── BlogPageController.php
-│   │   |    └── BlogPostPageController.php
+│   │   |   ├── HomePageController.php
+│   │   |   ├── BlogPageController.php
+│   │   |   └── BlogPostPageController.php
 |   |   ├── LoginController.php
 |   |   └── LogoutController.php
 │   ├── Entity/
