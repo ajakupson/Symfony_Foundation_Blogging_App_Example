@@ -1,7 +1,5 @@
 # Symfony_Foundation_Blogging_App_Example
 
-# Vanilla PHP + VueJS + MySQL Example
-
 ```
 project_root/
 ├── composer.json
