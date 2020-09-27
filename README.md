@@ -45,9 +45,5 @@ project_root/
 |        └── posts/ -- posts images 
 ├── migrations/
 |   └── aj_blogging_app.sql -- export from phpMyAdmin      
-|
-.
-.
-.
 . . . . .      
 ```
