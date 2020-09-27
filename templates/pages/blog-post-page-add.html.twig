@@ -13,7 +13,7 @@
           <input type="text" name="post-title"id="post-title" placeholder="Title">
           <textarea name="post-content" id="post-content" rows="12" placeholder="Content"></textarea>
           <div>
-            <div>
+            <div cass="file-upload-container">
               <label for="file-upload" class="button">Attach Image</label>
               <input type="file" id="file-upload" class="show-for-sr" multiple="false" accept=".png, .jpg, .jpeg" onchange="handleFiles(this.files)">
               <span id="selected-file-name"></span>
@@ -42,9 +42,11 @@
           var form = document.getElementById("post-from");
           var formData = new FormData(form);
           var file = document.getElementById("file-upload").files[0];
-          formData.append("post-img", file, file.name);
+          if(file) {
+            formData.append("post-img", file, file.name);
+          }
 
-          app.addPost({{ app.user.id }}, formData);
+          app.addPost({{ app.user ? app.user.id : null }}, formData);
         }
 
       }

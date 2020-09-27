@@ -3,8 +3,6 @@ security:
         App\Entity\Users:
             algorithm: auto
 
-
-
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -48,5 +46,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-        # - { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
+         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

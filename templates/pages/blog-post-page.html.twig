@@ -3,10 +3,10 @@
     <div class="callout large primary">
       <div class="text-center">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-        <a href="/user/{{ user.id }}/blog/">BACK</a>
+        <a href="/user/{{ user.id }}/blog/">USER BLOG</a>
       </div>
     </div>
-    <section class="grid-container">
+    <section class="grid-container" id="blog-post-container">
       <div class="grid-x align-center">
         <div class="cell medium-8">
           <div class="blog-post">
@@ -15,7 +15,7 @@
               <span id="blog-post-title" {% if is_granted('ROLE_ADMIN') %} contenteditable="true" {% endif %}>{{ blogPost.title }}</span>
               <small>{{ blogPost.dateTime|date("Y/m/d H:m:s") }}</small>
             </h3>
-            <img class="thumbnail" src="{{ asset('assets/img/default.jpg') }}">
+            <img class="thumbnail" src="{% if blogPost.postImg %}{{ asset('../uploads/posts/' ~ blogPost.postImg) }}{% else %}{{ asset('assets/img/default.jpg') }}{% endif %}"/>
             <p {% if is_granted('ROLE_ADMIN') %} contenteditable="true" class="editable" {% endif %} id="blog-post-content">
               {{ blogPost.content }}
             </p>
@@ -45,12 +45,12 @@
                             <span class="comment-hidden">{% if comment.isHidden %}(hidden){% endif %}</span>
                           {% endif %}
                         </small>
-                        {% if is_granted('ROLE_ADMIN') or (app.user and app.user.id == user.id) %}
+                        {% if is_granted('ROLE_ADMIN') or (app.user and app.user.id == user.id) or (app.user and comment.getUser and app.user.id == comment.getUser.getId) %}
                           <div class="comment-menu">
                             {% if is_granted('ROLE_ADMIN') %}
                               <button class="comment-hide-btn" data-comment-id="{{ comment.id }}"></button>
                             {% endif %}
-                            {% if is_granted('ROLE_ADMIN') or app.user.id == user.id %}
+                            {% if is_granted('ROLE_ADMIN') or app.user.id == user.id or app.user.id == comment.getUser.getId %}
                               <button class="comment-delete-btn" data-comment-id="{{ comment.id }}"></button>
                             {% endif %}
                           </div>

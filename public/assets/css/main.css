@@ -5,7 +5,7 @@
   margin-top: 20px;
 }
 #container h3 {
-  margin: 20px;
+  margin: 10px 20px 10px 20px;
 }
 #container .cell {
   margin: 20px;
@@ -53,6 +53,9 @@
 .blog-short-content {
   height: 100px;
   overflow: hidden;
+  margin: 5px;
+  padding: 0;
+  text-overflow: ellipsis;
 }
 aside.authors {
   width: auto;
@@ -77,7 +80,8 @@ aside.authors ul {
   margin: 30px;
 }
 #log-out-btn {
-  margin-top: 25px;
+  margin-top: 20px;
+  margin-left: 15px;
 }
 #save-blog-post-changes-btn {
   margin: 15px;
@@ -105,7 +109,7 @@ aside.authors ul {
   position: relative;
 }
 .comment-menu {
-  margin: 0 15px 0 15px;
+  margin: 0 15px 3px 15px;
   display: inline-block;
   text-align: center;
   vertical-align: bottom;
@@ -157,4 +161,36 @@ aside.authors ul {
 }
 .logo-link:hover {
   color: #1779ba;
+}
+.inline-block {
+  display: inline-block;
+}
+.search-menu .button {
+  border-radius: 0;
+}
+.thumbnail {
+  width: 345px;
+  height: 220px;
+  object-fit: cover;
+}
+.pagination {
+  text-align: center;
+  margin: 10px;
+}
+.cell {
+  width: 370px !important;
+  height: auto !important;
+}
+#blog-post-container .cell {
+  width: 66.66667% !important;
+}
+#selected-file-name {
+  vertical-align: super;
+}
+#blog-post-container .thumbnail {
+  width: 100%;
+  height: auto;
+}
+.left-padd-15 {
+  margin-left: 15px;
 }

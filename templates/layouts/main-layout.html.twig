@@ -29,6 +29,8 @@
             <li><a href="#">Sign Up</a></li>
           {% elseif app.user %}
               <li><p class="logged-in-name">{{ app.user.firstName }} {{ app.user.lastName }}</p><li>
+              {% if is_granted('ROLE_ADMIN') %}<li><a class="button" href="/admin">Admin</a></li>{% endif %}
+              <li><a class="button left-padd-15" href="/user/{{ app.user.id }}/blog">My Blog</a></li>
               <li><button class="button" id="log-out-btn">Log Out<button></li>
           {% endif %}
         </ul>

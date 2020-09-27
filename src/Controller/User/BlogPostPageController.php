@@ -75,8 +75,10 @@ class BlogPostPageController extends AbstractController
         $commentDateTimeStr = $comment->getDateTime()->format("Y/m/d h:i:s a");
         $commentTxt = $comment->getComment();
 
+        $commentUser = $comment->getUser();
         $jsonResponse = "{ \"fullName\": \"".$userFullName."\", \"commentDateTime\": \"".$commentDateTimeStr.
-                        "\", \"commentTxt\":\"".$commentTxt."\", \"commentId\": \"".$comment->getId()."\"}";
+                        "\", \"commentTxt\":\"".$commentTxt."\", \"commentId\": \"".$comment->getId().
+                        "\", \"commentUserId\": \"".($commentUser ? $commentUser->getId() : "")."\"}";
         $response = new Response($jsonResponse);
         $response->headers->set('Content-Type', 'application/json');
 

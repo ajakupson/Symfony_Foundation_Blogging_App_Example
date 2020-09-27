@@ -13,13 +13,14 @@ function App() {
       }
     }
 
-    ajaxCall("POST", "/login", "application/json", jsonData, callBackFunc);
+    ajaxCall("POST", "/login", "application/json", jsonData, "json", callBackFunc);
 
   }
 
   function logOut() {
     function callBackFunc() {
-      location.reload();
+      //location.reload();
+      window.location.href = "/";
     }
     ajaxCall("GET", "/logout", null, null, null, callBackFunc);
   }
@@ -38,6 +39,7 @@ function App() {
       if (scopedThis.readyState == 4 && scopedThis.status == 200) {
         document.getElementById("comment-txt").value = "";
         var jsonResponseObj = JSON.parse(scopedThis.response);
+        var isOwnerOfComment = jsonResponseObj.commentUserId == userId;
 
         var commentContinerInnerHTML = `<input type="hidden" value="` + jsonResponseObj.commentId + `">
                                         <div class="comment-column avatar">
@@ -47,10 +49,11 @@ function App() {
                                           <div class="comment-row">
                                             <h5>
                                               ` + jsonResponseObj.fullName + `
-                                              <small>` + jsonResponseObj.commentDateTime + (hasRoleAdmin ? ` <span class="comment-hidden"></span>` : ``) + `</small>` +
-                                              (hasRoleAdmin || isOwner ? `<div class="comment-menu">` : ``) +
+                                              <small>` + jsonResponseObj.commentDateTime +
+                                              (hasRoleAdmin ? ` <span class="comment-hidden"></span>` : ``) + `</small>` +
+                                              (hasRoleAdmin || isOwner || isOwnerOfComment ? `<div class="comment-menu">` : ``) +
                                               (hasRoleAdmin ? `<button class="comment-hide-btn" data-comment-id="` + jsonResponseObj.commentId + `"></button>` : ``) +
-                                              (hasRoleAdmin || isOwner ? ` <button class="comment-delete-btn" data-comment-id="` + jsonResponseObj.commentId + `"></button>` : ``) +
+                                              (hasRoleAdmin || isOwner || isOwnerOfComment ? ` <button class="comment-delete-btn" data-comment-id="` + jsonResponseObj.commentId + `"></button>` : ``) +
                                               (hasRoleAdmin || isOwner ? `</div>` : ``) +
                                             `</h5>
                                           </div>
@@ -70,7 +73,7 @@ function App() {
           }
         }
 
-        if(hasRoleAdmin || isOwner) {
+        if(hasRoleAdmin || isOwner || isOwnerOfComment) {
           var $deleteCommentBtn = $commentDomEl.getElementsByClassName('comment-delete-btn')[0];
           $deleteCommentBtn.onclick = function() {
             var commentId = this.getAttribute('data-comment-id');
@@ -145,7 +148,7 @@ function App() {
 
     if(data) {
       if(dataType == "json") {
-        var json = JSON.stringify(jsonData);
+        var json = JSON.stringify(data);
         xhttp.send(json);
       } else if(dataType == "form") {
         xhttp.send(data);

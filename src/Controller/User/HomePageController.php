@@ -4,21 +4,23 @@ namespace App\Controller\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Users;
 use App\Entity\BlogPosts;
-//use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractController
 {
-    public function homePage(/*UserPasswordEncoderInterface $encoder*/)
+    public function homePage(UserPasswordEncoderInterface $encoder, Request $request)
     {
         // Create admin user programmatically
-        /*
+
         $entityManager = $this->getDoctrine()->getManager();
 
+        /*
         $user = new Users();
-        $user->setEmail("ajakupson@gmail.com");
+        $user->setEmail("admin@mail.com");
         $user->setRoles(["ROLE_ADMIN"]);
 
-        $plainPassword = 'qwerty500';
+        $plainPassword = 'qwerty';
         $encoded = $encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
 
@@ -33,9 +35,35 @@ class HomePageController extends AbstractController
         $users = $usersRepo->findAll();
 
         $blogPostsRepo = $this->getDoctrine()->getRepository(BlogPosts::class);
-        $blogPosts = $blogPostsRepo->getLatestPosts();
+        $blogPosts = Array();
 
-        return $this->render('pages/home-page.html.twig', ['users' => $users, 'blogPosts' => $blogPosts]);
+        $currentPage = $request->request->get("current-page");
+        if(!$currentPage ) {
+          $currentPage = 1;
+        }
+        if($currentPage == 1) {
+          $offset = 0;
+        } else {
+          $offset = (int)$currentPage - 2 + 6;
+        }
+
+        $searchWord = trim($request->request->get("search-word"));
+        if(!$searchWord) {
+          $blogPosts = $blogPostsRepo->getLatestPosts($offset);
+        } else {
+          $blogPosts = $blogPostsRepo->findByKeywordInTitleOrContent($searchWord, $offset);
+        }
+
+        $totalPosts = 0;
+        if(!$searchWord) {
+          $totalPosts = $blogPostsRepo->getPostsCount();
+        } else {
+          $totalPosts = $blogPostsRepo->getPostsCountByKeywordInTitleOrContent($searchWord);
+        }
+
+        return $this->render('pages/home-page.html.twig', ['users' => $users, 'blogPosts' => $blogPosts,
+                                                           'searchWord' => $searchWord, 'totalPosts' => $totalPosts,
+                                                           'currentPage' => $currentPage]);
     }
 }
 
