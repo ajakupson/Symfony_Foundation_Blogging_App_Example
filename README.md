@@ -5,7 +5,7 @@
 ```
 project_root/
 ├── composer.json
-├── src/ -- everything related to server side
+├── src/
 │   ├── Service/
 │   │   └── FileUploader.php
 │   ├── Controller/
