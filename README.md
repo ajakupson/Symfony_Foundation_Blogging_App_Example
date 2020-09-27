@@ -26,11 +26,22 @@ project_root/
 ├── templates/
 |    ├──layouts/
 |    |   └── main-layout.html.twig
-.    └── pages/   
-.        ├── admin-home-page.html.twig
-.        ├── home-page.html.twig
-         ├── blog-page.html.twig
-         ├── blog-post-page.html.twig
-         └── plog-post-page-add.html.twig
-    ...
+|    └── pages/   
+|        ├── admin-home-page.html.twig
+|        ├── home-page.html.twig
+|        ├── blog-page.html.twig
+|        ├── blog-post-page.html.twig
+|        └── plog-post-page-add.html.twig
+├── public/
+|   ├──layouts/
+|   |   └── main-layout.html.twig
+.   ├── assets/   
+.   |   ├── css/
+.   |   |   └── main.css
+    |   ├── js/
+    |   |   └── app.js
+    |   └── img/ -- default or app images
+    └── uploads/
+        └── posts/ -- posts images 
+   ...      
 ```
