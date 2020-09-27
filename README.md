@@ -35,13 +35,19 @@ project_root/
 ├── public/
 |   ├──layouts/
 |   |   └── main-layout.html.twig
-.   ├── assets/   
-.   |   ├── css/
-.   |   |   └── main.css
-    |   ├── js/
-    |   |   └── app.js
-    |   └── img/ -- default or app images
-    └── uploads/
-        └── posts/ -- posts images 
-   ...      
+|   ├── assets/   
+|   |   ├── css/
+|   |   |   └── main.css
+|   |   ├── js/
+|   |   |   └── app.js
+|   |   └── img/ -- default or app images
+|   └── uploads/
+|        └── posts/ -- posts images 
+├── migrations/
+|   └── aj_blogging_app.sql -- export from phpMyAdmin      
+|
+.
+.
+.
+. . . . .      
 ```
