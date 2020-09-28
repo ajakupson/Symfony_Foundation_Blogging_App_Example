@@ -33,8 +33,6 @@ project_root/
 |        ├── blog-post-page.html.twig
 |        └── plog-post-page-add.html.twig
 ├── public/
-|   ├──layouts/
-|   |   └── main-layout.html.twig
 |   ├── assets/   
 |   |   ├── css/
 |   |   |   └── main.css
