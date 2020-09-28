@@ -27,17 +27,13 @@ class BlogPageController extends AbstractController
         }
 
         $blogPosts = Array();
+        $totalPosts = 0;
         $searchWord = trim($request->request->get("search-word"));
         if(!$searchWord) {
           $blogPosts = $blogPostsRepo->getPostsByUserId($userId, $offset, $maxResult = 8);
-        } else {
-          $blogPosts = $blogPostsRepo->findByKeywordAndUserIdInTitleOrContent($userId, $searchWord, $offset, $maxResult = 8);
-        }
-
-        $totalPosts = 0;
-        if(!$searchWord) {
           $totalPosts = $blogPostsRepo->getPostsCountByUserId($userId);
         } else {
+          $blogPosts = $blogPostsRepo->findByKeywordAndUserIdInTitleOrContent($userId, $searchWord, $offset, $maxResult = 8);
           $totalPosts = $blogPostsRepo->getPostsCountByKeywordInTitleOrContentAndUserId($userId, $searchWord);
         }
 

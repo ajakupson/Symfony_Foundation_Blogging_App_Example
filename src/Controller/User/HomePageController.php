@@ -48,16 +48,12 @@ class HomePageController extends AbstractController
         }
 
         $searchWord = trim($request->request->get("search-word"));
-        if(!$searchWord) {
-          $blogPosts = $blogPostsRepo->getLatestPosts($offset);
-        } else {
-          $blogPosts = $blogPostsRepo->findByKeywordInTitleOrContent($searchWord, $offset);
-        }
-
         $totalPosts = 0;
         if(!$searchWord) {
+          $blogPosts = $blogPostsRepo->getLatestPosts($offset);
           $totalPosts = $blogPostsRepo->getPostsCount();
         } else {
+          $blogPosts = $blogPostsRepo->findByKeywordInTitleOrContent($searchWord, $offset);
           $totalPosts = $blogPostsRepo->getPostsCountByKeywordInTitleOrContent($searchWord);
         }
 
