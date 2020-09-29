@@ -31,7 +31,7 @@ project_root/
 |        ├── home-page.html.twig
 |        ├── blog-page.html.twig
 |        ├── blog-post-page.html.twig
-|        └── plog-post-page-add.html.twig
+|        └── blog-post-page-add.html.twig
 ├── public/
 |   ├── assets/   
 |   |   ├── css/
